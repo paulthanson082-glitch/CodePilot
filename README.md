@@ -2,8 +2,10 @@
 
 **A native desktop GUI for Claude Code** -- chat, code, and manage projects through a polished visual interface instead of the terminal.
 
+[中文文档](./README_CN.md)
+
 <!-- badges -->
-<!-- ![GitHub release](https://img.shields.io/github/v/release/your-org/codepilot) -->
+<!-- ![GitHub release](https://img.shields.io/github/v/release/op7418/CodePilot) -->
 <!-- ![License](https://img.shields.io/badge/license-MIT-blue) -->
 <!-- ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey) -->
 
@@ -47,7 +49,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/codepilot.git
+git clone https://github.com/op7418/CodePilot.git
 cd codepilot
 
 # Install dependencies
@@ -66,7 +68,7 @@ Then open [http://localhost:3000](http://localhost:3000) (browser mode) or wait 
 
 ## Download
 
-Pre-built releases for macOS are available on the [Releases](https://github.com/your-org/codepilot/releases) page.
+Pre-built releases for macOS are available on the [Releases](https://github.com/op7418/CodePilot/releases) page.
 
 > Windows and Linux builds are planned. Contributions welcome.
 
