@@ -1,7 +1,7 @@
 <img src="docs/icon-readme.png" width="32" height="32" alt="CodePilot" style="vertical-align: middle; margin-right: 8px;" /> CodePilot
 ===
 
-**A native desktop GUI for Claude Code** -- chat, code, and manage projects through a polished visual interface instead of the terminal.
+**An iPad-friendly toolbox for developers and power users** -- clean up text, format and validate JSON, copy/share results instantly, and more. Built with an iPad-first UX philosophy so every tool works beautifully on a touchscreen as well as a desktop.
 
 [![GitHub release](https://img.shields.io/github/v/release/op7418/CodePilot)](https://github.com/op7418/CodePilot/releases)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-lightgrey)](https://github.com/op7418/CodePilot/releases)
@@ -11,21 +11,15 @@
 
 ---
 
-## Features
+## MVP Features
 
-- **💬 Conversational coding** -- Stream responses from Claude in real time with full Markdown rendering, syntax-highlighted code blocks, and tool-call visualization.
-- **📂 Session management** -- Create, rename, archive, and resume chat sessions. Conversations are persisted locally in SQLite so nothing is lost between restarts.
-- **🎯 Project-aware context** -- Pick a working directory per session. The right panel shows a live file tree and file previews so you always know what Claude is looking at.
-- **🔒 Permission controls** -- Approve, deny, or auto-allow tool use on a per-action basis. Choose between permission modes to match your comfort level.
-- **🎭 Multiple interaction modes** -- Switch between *Code*, *Plan*, and *Ask* modes to control how Claude behaves in each session.
-- **🤖 Model selector** -- Switch between Claude models (Opus, Sonnet, Haiku) mid-conversation.
-- **🔌 MCP server management** -- Add, configure, and remove Model Context Protocol servers directly from the Extensions page. Supports `stdio`, `sse`, and `http` transport types.
-- **⚡ Custom skills** -- Define reusable prompt-based skills (global or per-project) that can be invoked as slash commands during chat.
-- **⚙️ Settings editor** -- Visual and JSON editors for your `~/.claude/settings.json`, including permissions and environment variables.
-- **📊 Token usage tracking** -- See input/output token counts and estimated cost after every assistant response.
-- **🌗 Dark / Light theme** -- One-click theme toggle in the navigation rail.
-- **⌨️ Slash commands** -- Built-in commands like `/help`, `/clear`, `/cost`, `/compact`, `/doctor`, `/review`, and more.
-- **🖥️ Electron packaging** -- Ships as a native desktop app with a hidden title bar, bundled Next.js server, and automatic port allocation.
+1. **🏠 Toolbox Home** -- A clean launchpad that lists all available tools. Tap or click any tile to open a tool instantly.
+2. **✏️ Text Cleanup Tool** -- Trim whitespace, normalise line endings, remove duplicate lines, and apply common text transforms with a single tap.
+3. **📋 JSON Formatter + Validator** -- Paste raw JSON, get it pretty-printed and validated in real time; errors are highlighted with clear messages.
+4. **⚡ Copy / Share Quick Actions** -- One-tap copy to clipboard and native share sheet integration so results flow straight to other apps.
+5. **📖 Basic Docs and Roadmap** -- In-app documentation and a visible roadmap so users always know what is coming next.
+
+> See [`docs/roadmap.md`](docs/roadmap.md) for the full phased plan.
 
 ---
 
@@ -60,24 +54,45 @@ Pre-built releases are available on the [**Releases**](https://github.com/op7418
 
 ---
 
-## Quick Start
+## Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/op7418/CodePilot.git
-cd codepilot
+# 1. Clone the repository
+git clone https://github.com/paulthanson082-glitch/CodePilot.git
+cd CodePilot
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Start in development mode (browser)
+# 3. Start in development mode (browser)
 npm run dev
 
-# -- or start the full Electron app in dev mode --
+# 4. Or start the full Electron app in dev mode
 npm run electron:dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000) (browser mode) or wait for the Electron window to appear.
+Then open [http://localhost:3000](http://localhost:3000) in your browser (dev mode) or wait for the Electron window to appear.
+
+### Git Workflow
+
+We follow a simple feature-branch workflow:
+
+1. **Create a feature branch** from `main`:
+   ```bash
+   git checkout main && git pull
+   git checkout -b feature/your-feature-name
+   ```
+2. **Make focused commits** using [Conventional Commits](https://www.conventionalcommits.org/) style:
+   - `feat:` for new features
+   - `fix:` for bug fixes
+   - `docs:` for documentation changes
+   - `chore:` for maintenance tasks
+3. **Push and open a PR** against `main`. Keep PRs small and focused -- one feature or fix per PR.
+4. **Lint before pushing**: `npm run lint`
+
+### iPad Setup
+
+For tips on using CodePilot and running an iPad-focused development workflow, see [`docs/ipad-setup.md`](docs/ipad-setup.md).
 
 ---
 
@@ -148,39 +163,26 @@ Windows SmartScreen will block the installer or executable.
 ## Project Structure
 
 ```
-codepilot/
-├── electron/                # Electron main process & preload
-│   ├── main.ts              # Window creation, embedded server lifecycle
-│   └── preload.ts           # Context bridge
+CodePilot/
+├── docs/                        # Documentation
+│   ├── roadmap.md               # Phased development roadmap
+│   └── ipad-setup.md            # iPad productivity setup guide
 ├── src/
-│   ├── app/                 # Next.js App Router pages & API routes
-│   │   ├── chat/            # New-chat page & [id] session page
-│   │   ├── extensions/      # Skills + MCP server management
-│   │   ├── settings/        # Settings editor
-│   │   └── api/             # REST + SSE endpoints
-│   │       ├── chat/        # Sessions, messages, streaming, permissions
-│   │       ├── files/       # File tree & preview
-│   │       ├── plugins/     # Plugin & MCP CRUD
-│   │       ├── settings/    # Settings read/write
-│   │       ├── skills/      # Skill CRUD
-│   │       └── tasks/       # Task tracking
-│   ├── components/
-│   │   ├── ai-elements/     # Message bubbles, code blocks, tool calls, etc.
-│   │   ├── chat/            # ChatView, MessageList, MessageInput, streaming
-│   │   ├── layout/          # AppShell, NavRail, Header, RightPanel
-│   │   ├── plugins/         # MCP server list & editor
-│   │   ├── project/         # FileTree, FilePreview, TaskList
-│   │   ├── skills/          # SkillsManager, SkillEditor
-│   │   └── ui/              # Radix-based primitives (button, dialog, tabs, ...)
-│   ├── hooks/               # Custom React hooks (usePanel, ...)
-│   ├── lib/                 # Core logic
-│   │   ├── claude-client.ts # Agent SDK streaming wrapper
-│   │   ├── db.ts            # SQLite schema, migrations, CRUD
-│   │   ├── files.ts         # File system helpers
-│   │   ├── permission-registry.ts  # Permission request/response bridge
-│   │   └── utils.ts         # Shared utilities
-│   └── types/               # TypeScript interfaces & API contracts
-├── electron-builder.yml     # Packaging configuration
+│   ├── core/                    # Shared utilities, helpers, and core logic
+│   ├── ui/                      # Reusable UI components (iPad-first)
+│   ├── tools/
+│   │   ├── text/                # Text Cleanup Tool
+│   │   ├── dev/                 # Developer tools (JSON formatter, etc.)
+│   │   └── productivity/        # Productivity-focused tools
+│   ├── app/                     # Next.js App Router pages & API routes
+│   ├── components/              # Shared React components
+│   ├── hooks/                   # Custom React hooks
+│   ├── lib/                     # Core library code
+│   └── types/                   # TypeScript interfaces & contracts
+├── tests/                       # Unit and integration tests
+├── electron/                    # Electron main process & preload
+├── public/                      # Static assets
+├── scripts/                     # Build and packaging scripts
 ├── package.json
 └── tsconfig.json
 ```
@@ -217,15 +219,15 @@ npm run electron:pack
 
 ## Contributing
 
-Contributions are welcome. To get started:
+Contributions are welcome! To get started:
 
-1. Fork the repository and create a feature branch.
+1. Fork the repository and create a feature branch off `main`.
 2. Install dependencies with `npm install`.
-3. Run `npm run electron:dev` to test your changes locally.
+3. Run `npm run electron:dev` (or `npm run dev`) to test your changes locally.
 4. Make sure `npm run lint` passes before opening a pull request.
 5. Open a PR against `main` with a clear description of what changed and why.
 
-Please keep PRs focused -- one feature or fix per pull request.
+See the [roadmap](docs/roadmap.md) for planned features -- feel free to pick up anything in Phase 2 or Phase 3.
 
 ---
 
